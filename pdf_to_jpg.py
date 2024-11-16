@@ -1,11 +1,12 @@
 import fitz  # PyMuPDF
-from PIL import Image
+from PIL import Image # Pillow
 import os
+import mylib
 
-def pdf_to_jpg(file_name):
+def convert_pdf_to_jpg(file_name):
     # ファイル拡張子を確認
     if not file_name.endswith('.pdf'):
-        print("エラー: PDFファイルを指定してください．")
+        mylib.log_error("エラー: PDFファイルを指定してください．")
         return
 
     # PDFを開く
