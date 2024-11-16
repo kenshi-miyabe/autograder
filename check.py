@@ -3,8 +3,8 @@ import mylib
 import sys
 import csv
 
-answer_file = "answer.csv"
-student_file = "sample.csv"
+answer_file = "./correct_answer/answer.csv"
+student_file = "./student_answers/student1.csv"
 
 df_correct_answer = mylib.load_csv(answer_file)
 if df_correct_answer is None:
