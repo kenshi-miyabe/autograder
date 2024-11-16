@@ -4,7 +4,7 @@ import sys
 import csv
 
 answer_file = "./correct_answer/answer.csv"
-student_file = "./student_answers/student1.csv"
+student_file = "./student_answers/student2.csv"
 
 df_correct_answer = mylib.load_csv(answer_file)
 if df_correct_answer is None:
@@ -20,7 +20,7 @@ def compare_lists(list1, list2):
     """
     2つのリストを比較して、指定の条件に基づいて出力する関数。
     
-    - 1つ目のリストの項目が '*' の場合は '*' を出力。
+    - 1つ目のリストの項目が '*' の場合は 2つ目のリストの項目を出力。
     - '*' でない場合、2つのリストの値を比較し、同じなら 1、異なれば 0 を出力。
 
     Parameters:
@@ -36,7 +36,7 @@ def compare_lists(list1, list2):
     result = []
     for item1, item2 in zip(list1, list2):
         if item1 == "*":
-            result.append("*")
+            result.append(item2)
         else:
             result.append(1 if item1 == item2 else 0)
     return result
