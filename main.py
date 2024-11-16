@@ -45,6 +45,8 @@ number_list.append(5)
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
+        base, ext = os.path.splitext(file_name)
+        file_name_txt = base + ".txt"
 
         print(f"{image_path}を処理中")
         output_list = image_to_text.process_images_with_prompt(model_path, [image_path], prompt_list)
@@ -56,7 +58,7 @@ for file_name in sorted(os.listdir(dir_students)):
             while len(items) < number_item:
                 items.append("")
             output_list_long = output_list_long + items[:number_item]
-        output_list_long = [file_name[:10]] + [item.strip() for item in output_list_long]
+        output_list_long = [file_name[:10], file_name_txt] + [item.strip() for item in output_list_long]
         print(output_list_long)
 
         # テキストファイルに出力
@@ -99,7 +101,7 @@ except Exception as e:
 df_student = reformulate.read_second_row_from_all_txt(dir_students)
 
 # 結果を表示
-df_student.columns = ["学生番号"] + [f"Q{i}" for i in range(1, 11)]  # Q1～Q10
+df_student.columns = ["学生番号", "ファイル名"] + [f"Q{i}" for i in range(1, 11)]  # Q1～Q10
 print(df_student)
 
 merged_df = pd.merge(df_report, df_student, on="学生番号", how="left")
