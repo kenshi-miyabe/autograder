@@ -3,19 +3,6 @@ import mylib
 import sys
 import csv
 
-answer_file = "./correct_answer/answer.csv"
-student_file = "./student_answers/student2.csv"
-
-df_correct_answer = mylib.load_csv(answer_file)
-if df_correct_answer is None:
-    mylib.log_error("エラー: 模範解答ファイルからデータを読み込めませんでした．スクリプトを終了します。")
-    sys.exit()  # スクリプトを終了
-
-df_your_answer = mylib.load_csv(student_file)
-if df_your_answer is None:
-    mylib.log_error("エラー: 学生解答ファイルからデータを読み込めませんでした．スクリプトを終了します。")
-    sys.exit()  # スクリプトを終了
-
 def compare_lists(list1, list2):
     """
     2つのリストを比較して、指定の条件に基づいて出力する関数。
@@ -41,27 +28,7 @@ def compare_lists(list1, list2):
             result.append(1 if item1 == item2 else 0)
     return result
 
-# 比較
-result = compare_lists(df_correct_answer.iloc[0], df_your_answer.iloc[0])
-print(result)
 
-def append_to_csv(file_name, data_list):
-    """
-    リストをCSVファイルに追記する関数。
-    
-    Parameters:
-        file_name (str): 書き込むCSVファイルの名前。
-        data_list (list): CSVに追記するリスト（1行分のデータ）。
-    """
-    try:
-        with open(file_name, mode='a', newline='', encoding='utf-8') as file:
-            writer = csv.writer(file)
-            writer.writerow(data_list)
-        print(f"データを{file_name}に追記しました。")
-    except Exception as e:
-        mylib.error_log(f"エラーが発生しました: {e}")
-
-append_to_csv(student_file, result)
 
 """
 from mlx_lm import load, generate

@@ -1,4 +1,5 @@
 import pandas as pd
+import csv
 
 def load_csv(file_path):
     """
@@ -35,6 +36,25 @@ if __name__ == "__main__":
     # CSVファイルを読み込む
     df = load_csv(file_path)
 """
+
+def write_to_csv(file_name, data_list, mode):
+    """
+    リストをCSVファイルに追記する関数。
+    
+    Parameters:
+        file_name (str): 書き込むCSVファイルの名前。
+        data_list (list): CSVに追記するリスト（1行分のデータ）。
+        mode (str): ファイルを開くモード（'w' または 'a'）。
+    """
+    try:
+        with open(file_name, mode=mode, newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(data_list)
+        print(f"データを{file_name}に書き込みました。")
+    except Exception as e:
+        log_error(f"エラーが発生しました: {e}")
+
+
 
 def log_error(error_message, file_name="error.txt"):
     """
