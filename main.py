@@ -20,56 +20,34 @@ for file_name in sorted(os.listdir(dir_students)):
 # モデル名、画像パス、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
-number_list = []
-#prompt = "「Student ID」「学生番号」という文字の右に書かれている10文字の英数字のみを答えて．"
-#prompt_list.append(prompt)
-#number_list.append(1)
-#prompt = "「?年?組?番号」の?の部分を読み取り，以下の形式で出力せよ．\n"
-#prompt = prompt + "年の前の数字, 組の前の数字, 番号の前の数字"
-#prompt = prompt + "(例)\n 1, 1, 001"
-#prompt_list.append(prompt)
-#number_list.append(3)
-#prompt = "学生番号(Student's ID)を読み取り以下の形式で出力せよ．\n"
-#prompt = prompt + "?は1文字の数字で，???R??????"
-#prompt = prompt + "(例)\n 111R111111"
-#prompt_list.append(prompt)
-#number_list.append(1)
-prompt = "(1)から(5)の解答を読み取り答えのみ以下の形式で出力せよ．\n"
-prompt = prompt + "(1)の答, (2)の答,..., (5)の答"
-prompt = prompt + "（例)\n a, a, a, a, a"
-prompt_list.append(prompt)
-number_list.append(5)
-prompt = "(6)から(10)の解答を読み取り答えのみ以下の形式で出力せよ．\n"
-prompt = prompt + "(6)の答, (7)の答,..., (10)の答"
-prompt = prompt + "（例)\n a, a, a, a, a"
-prompt_list.append(prompt)
-number_list.append(5)
+prompt_list.append("学生番号の欄に書かれている英数字10桁(158Rで始まる)を答えて．")
+prompt_list.append("氏名の欄に書かれている文字を答えて．")
+prompt_list.append("年・組・番号の欄に書かれている文字を答えて．")
+prompt_list.append("学生の解答用紙です．問題(1)〜(5)の解答を答えて．")
+prompt_list.append("学生の解答用紙です．問題(6)〜(10)の解答を答えて．")
+prompt_list.append("学生の解答用紙です．問題(11)〜(15)の解答を答えて．")
+prompt_list.append("学生の解答用紙です．問題(16)〜(20)の解答を答えて．")
+
+#num_questions = 20
+#for i in range(num_questions):
+#    prompt_list.append(f"学生の解答用紙です．問題({i+1})の解答を答えて．")
 
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
-        base, ext = os.path.splitext(file_name)
-        file_name_txt = base + ".txt"
 
         print(f"{image_path}を処理中")
         output_list = image_to_text.process_images_with_prompt(model_path, [image_path], prompt_list)
         
-        # 出力リストを整形
-        output_list_long = []
-        for output_item, number_item in zip(output_list, number_list):
-            items = output_item.split(",")
-            while len(items) < number_item:
-                items.append("")
-            output_list_long = output_list_long + items[:number_item]
-        output_list_long = [file_name_txt, file_name[:10]] + [item.strip() for item in output_list_long]
-#        output_list_long = [file_name_txt] + [item.strip() for item in output_list_long]
-        print(output_list_long)
-
         # テキストファイルに出力
         base, ext = os.path.splitext(image_path)
         txt_path = base + ".txt"
-        mylib.write_to_csv(txt_path, output_list_long, mode='w')
+        with open(txt_path, "w", encoding="utf-8") as file:
+            # 各要素を1行ずつ書き込む
+            for line in output_list:
+                file.write(line + "\n")  # 各行の最後に改行を追加
 
+"""
 # 解答の正誤判定
 answer_file = "./correct_answer/answer.csv"
 df_correct_answer = mylib.load_csv(answer_file)
@@ -114,6 +92,6 @@ print(merged_df.head())
 # データフレームをCSVファイルとして保存
 output_file = "./correct_answer/grade.csv"  # 保存するファイル名
 merged_df.to_csv(output_file, index=False, encoding="utf-8-sig")
-
+"""
 
 
