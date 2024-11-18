@@ -40,7 +40,8 @@ def compare_lists(list1, list2):
         list: 比較結果のリスト。
     """
     if len(list1) != len(list2):
-        raise ValueError("リストの長さが一致していません。")
+        message = mylib.log_error(f"リストの長さが一致していません。: {list1},\n {list2}")
+        return message
 
     result = []
     for item1, item2 in zip(list1, list2):

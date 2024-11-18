@@ -2,31 +2,24 @@ The student ID (starting with 158R) is:
 
 158R22051
 The student's number is 18.
-The answers to problems (1) through (5) are written in uppercase letters of the alphabet. Here they are:
+The answers to problems (1) through (5) are written in uppercase letters of the alphabet. Here they are in the format `(problem-number) letter':
 
 1. N
 2. Θ
 3. R
 4. B
 5. J
-The answers to problems (6) through (10) are written in lowercase letters of the alphabet. Here they are:
+The answers to problems (6) through (10) are written in lowercase letters of the alphabet. Here they are in the format `(problem-number) letter':
 
-- Problem 6: a
-- Problem 7: n
-- Problem 8: o
-- Problem 9: t
-- Problem 10: l
-The answers to problems (11) through (15) are written as single-digit numbers. Here they are:
+- (6) a
+- (7) n
+- (8) o
+- (9) t
+- (10) l
+Here are the answers to problems (11) through (15) in the format `(problem-number) digit`:
 
-11. 2
-12. 7
-13. 1
-14. 8
-15. 5
-Sure, here are the answers in the requested format:
-
-1. 2/3
-2. 16/25
-3. 13/9
-4. 21/7
-5. 1/1
+- (11) 2
+- (12) 7
+- (13) 1
+- (14) 8
+- (15) 5

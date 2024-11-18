@@ -2,32 +2,24 @@ The student ID (starting with 158R) is:
 
 158R228038
 The student's number is 39.
-The answers to problems (1) through (5) are written in uppercase letters of the alphabet. Here they are:
+The answers to problems (1) through (5) are written in uppercase letters of the alphabet. Here they are in the format `(problem-number) letter':
 
 1. A
 2. B
 3. C
 4. D
 5. E
-The answers to problems (6) through (10) are written in lowercase letters of the alphabet. Here they are:
+The answers to problems (6) through (10) are written in lowercase letters of the alphabet. Here they are in the format `(problem-number) letter':
 
-- Problem 6: f
-- Problem 7: g
-- Problem 8: h
-- Problem 9: i
-- Problem 10: j
-The answers to problems (11) through (15) are written as single-digit numbers. Here they are:
+- (6) f
+- (7) g
+- (8) a
+- (9) i
+- (10) j
+The answers to problems (11) through (15) are written as single-digit numbers. Here they are in the format `(problem-number) digit':
 
-- Problem 11: 3
-- Problem 12: 5
-- Problem 13: 6
-- Problem 14: 2
-- Problem 15: 9
-The answers for Question (16)-(20) are written as fractions. Here they are in the format ?/?:
-
-1. 3/8
-2. 2/17
-3. 2/18
-4. 4/14
-5. 7/20
-6. 5/9
+- (11) 3
+- (12) 5
+- (13) 6
+- (14) 2
+- (15) 9
