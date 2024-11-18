@@ -38,20 +38,30 @@ if __name__ == "__main__":
 #    image_paths = ["./student_answers/158R218026-MINUTE-2411181639_page1.jpg"]
 #    image_paths = ["./student_answers/158R218067-MINUTE-2411181639_page1.jpg"]
     image_paths = ["./student_answers/158R228020-MINUTE-2411181641_page1.jpg"]
-#    prompt = "学生番号の欄に書かれている英数字10桁(158Rで始まる)を答えて．"
-#    prompt = "What is the student's ID?"
-#    prompt = "氏名の欄に書かれている文字を答えて．"
-#    prompt = "年・組・番号の欄に書かれている文字を答えて．"
-#    prompt = "What are his/her grade, class, and number?"
-#    prompt = "The student's grade is 3 or 4, the student's class is 16. Then, what is the student's number?"
-#    prompt = "問題(1)から(5)に何と解答していますか．それぞれ大文字のアルファベットで答えて．"
-#    prompt = "The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is in the format `(number) letter'."
-#    prompt = "問題(6)から(10)の解答が小文字のアルファベットで書かれています．何と解答しているか，それぞれ答えて．"
-#    prompt = "The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(number) letter'."
-#    prompt = "問題(11)から(15)の解答が1桁の数字で書かれています．何と解答しているか，それぞれ答えて．"
-    prompt = "The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(number) digit'."
-#    prompt = "問題(16)から(20)の解答が分数で書かれています．何と解答しているか，それぞれ答えて．"
-#    prompt = "The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(number) ?/?'."
+    prompt = """
+Analyze the image and extract a 10-character alphanumeric ID that starts with '158R'.
+The ID will be in the format '158R******' where '*' represents numbers.
+Output the result as 'ID: 158R*****'.
+If no such ID is found, respond with 'No ID found'.
+"""
+    prompt = """
+Analyze the image and extract the information for grade, class, and number.
+Output the result in the format:
+Grade: [extracted grade]
+Class: [extracted class]
+Number: [extracted number]
+"""
+    prompt = """
+"Analyze the image and extract answers labeled as '(1)' to '(5)'.
+Each answer is a single uppercase alphabet letter.
+Output the results in the following format:
+(1) [Answer]
+(2) [Answer]
+(3) [Answer]
+(4) [Answer]
+(5) [Answer]
+If any answer cannot be identified, replace it with '???'.
+"""
 
     # 関数を呼び出して結果を取得
     output = process_images_with_prompt(model_path, image_paths, [prompt])

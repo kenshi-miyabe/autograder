@@ -16,7 +16,7 @@ def read_second_row_from_all_txt(directory):
 
     # ディレクトリ内のすべてのファイルを走査
     for file_name in os.listdir(directory):
-        if file_name.endswith(".txt"):  # CSVファイルのみ処理
+        if file_name.endswith("-grade.txt"):  # txtファイルのみ処理
             file_path = os.path.join(directory, file_name)
             
             try:

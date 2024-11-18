@@ -80,6 +80,17 @@ def write_text_file(file_path, content_list):
     except Exception as e:
         log_error(f"エラーが発生しました: {e}")
 
+# Excelファイルを読み込む関数
+def read_excel(file_path, sheet_name=0, header=1, dtype=str):
+    try:
+        df = pd.read_excel(file_path, sheet_name=sheet_name, header=header, dtype=dtype)
+        print("Excelファイルを正常に読み込みました。")
+        return df
+    except FileNotFoundError:
+        log_error(f"エラー: ファイルが見つかりません: {file_path}")
+    except Exception as e:
+        log_error(f"エラーが発生しました: {e}")
+
 def log_error(error_message, file_name="error.txt"):
     """
     エラーメッセージを指定されたファイルに追記する関数。

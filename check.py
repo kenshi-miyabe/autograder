@@ -25,6 +25,12 @@ def generate_with_prompt(model, prompt):
     response = generate(model, tokenizer, prompt=prompt, verbose=False)
     return response
 
+def text_to_list(text, correct_len):
+    student_answer_list = [item.strip() for item in text.split(",")]
+    while len(student_answer_list) < correct_len:
+        student_answer_list.append("")
+    return student_answer_list[:correct_len]
+
 def compare_lists(list1, list2):
     """
     2つのリストを比較して、指定の条件に基づいて出力する関数。
@@ -54,25 +60,25 @@ def compare_lists(list1, list2):
 if __name__ == "__main__":
     # モデル名、プロンプトを設定
     model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
-    prompt = """
-Read the following and output the student ID followed by answers (1) to (20) separated by commas in this order.
-(e.g., 158R228020, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T)
-=====
+prompt0 = """
+Read the following input and extract the answers to questions (1) through (15).
+Output the answers separated by commas.
+For example: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O.
 """
-    txt_path = "./student_answers/158R228020-MINUTE-2411181641_page1.txt"
     answer_file = "./correct_answer/answer.txt"
+    txt_path = "./student_answers/158R228020-MINUTE-2411181641_page1.txt"
 
     content = mylib.read_text_file(txt_path)
-    prompt = prompt + content
-    student_answer = generate_with_prompt(model_path, prompt)
-    #print(student_answers)
-    student_answer_list = [item.strip() for item in student_answer.split(",")]
+    prompt = prompt0 + content
+    student_answer = check.generate_with_prompt(model_path, prompt)
+    student_answer_list = check.text_to_list(student_answer, problem_length)
     student_answer_list.insert(0, os.path.basename(txt_path)[:10])
-    print(student_answer_list)
+    student_answer_list.insert(0, os.path.basename(txt_path))
 
     correct_answer = mylib.read_text_file(answer_file)
-    correct_answer_list = [item.strip() for item in correct_answer.split(",")]
-    grade_list = compare_lists(correct_answer_list, student_answer_list)
+    correct_answer_list = check.text_to_list(correct_answer, problem_length+2)
+        
+    grade_list = check.compare_lists(correct_answer_list, student_answer_list)
     print(grade_list)
 
     # テキストファイルに出力
