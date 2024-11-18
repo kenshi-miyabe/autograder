@@ -34,12 +34,13 @@ def process_images_with_prompt(model_path, image_paths, prompt_list):
 if __name__ == "__main__":
     # モデル名、画像パス、プロンプトを設定
     model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
-    image_paths = ["./student_answers/20241115-a_page1.jpg"]
-    prompt = "画像から(1)から(10)の解答を読み取り，1行目に(1)の解答を，改行して2行目に(2)の解答を，以下同様に英文字1文字で出力してください．"
+    image_paths = ["./student_answers/158R248006-MINUTE-2411130931_page1.jpg"]
+#    prompt = "「Student ID」「学生番号」という文字の右に書かれている10文字の英数字のみを答えて．"
+    prompt = "「年・組・番号　?年?組?番」と書かれています．?に当てはまる3つの文字のみをコンマで区切って答えて．"
 
     # 関数を呼び出して結果を取得
     output = process_images_with_prompt(model_path, image_paths, [prompt])
 
     # 出力を表示
     print("出力結果:")
-    print(output)
+    print(output[0])

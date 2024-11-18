@@ -21,6 +21,9 @@ for file_name in sorted(os.listdir(dir_students)):
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
 number_list = []
+#prompt = "「Student ID」「学生番号」という文字の右に書かれている10文字の英数字のみを答えて．"
+#prompt_list.append(prompt)
+#number_list.append(1)
 #prompt = "「?年?組?番号」の?の部分を読み取り，以下の形式で出力せよ．\n"
 #prompt = prompt + "年の前の数字, 組の前の数字, 番号の前の数字"
 #prompt = prompt + "(例)\n 1, 1, 001"
@@ -58,7 +61,8 @@ for file_name in sorted(os.listdir(dir_students)):
             while len(items) < number_item:
                 items.append("")
             output_list_long = output_list_long + items[:number_item]
-        output_list_long = [file_name[:10], file_name_txt] + [item.strip() for item in output_list_long]
+        output_list_long = [file_name_txt, file_name[:10]] + [item.strip() for item in output_list_long]
+#        output_list_long = [file_name_txt] + [item.strip() for item in output_list_long]
         print(output_list_long)
 
         # テキストファイルに出力
@@ -101,7 +105,7 @@ except Exception as e:
 df_student = reformulate.read_second_row_from_all_txt(dir_students)
 
 # 結果を表示
-df_student.columns = ["学生番号", "ファイル名"] + [f"Q{i}" for i in range(1, 11)]  # Q1～Q10
+df_student.columns = ["ファイル名", "学生番号"] + [f"Q{i}" for i in range(1, 11)]  # Q1～Q10
 print(df_student)
 
 merged_df = pd.merge(df_report, df_student, on="学生番号", how="left")
