@@ -6,31 +6,28 @@ import image_to_text
 import check
 import reformulate
 
-# 設定
+# 学生の解答用紙ファイルのディレクトリ設定
 dir_students = './student_answers'
 
+"""
 # pdfファイルをjpgに変換
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".pdf"):
         pdf_path = os.path.join(dir_students, file_name)
         print(f"{pdf_path}を処理中")
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
+"""
 
 # 画像からテキストを抽出
-# モデル名、画像パス、プロンプトを設定
+# モデル名、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
-prompt_list.append("学生番号の欄に書かれている英数字10桁(158Rで始まる)を答えて．")
-prompt_list.append("氏名の欄に書かれている文字を答えて．")
-prompt_list.append("年・組・番号の欄に書かれている文字を答えて．")
-prompt_list.append("学生の解答用紙です．問題(1)〜(5)の解答を答えて．")
-prompt_list.append("学生の解答用紙です．問題(6)〜(10)の解答を答えて．")
-prompt_list.append("学生の解答用紙です．問題(11)〜(15)の解答を答えて．")
-prompt_list.append("学生の解答用紙です．問題(16)〜(20)の解答を答えて．")
-
-#num_questions = 20
-#for i in range(num_questions):
-#    prompt_list.append(f"学生の解答用紙です．問題({i+1})の解答を答えて．")
+prompt_list.append("Provide the student ID (starting with 158R).")
+prompt_list.append("The student's grade is 1, 2, 3 or 4, the student's class is 16. Then, what is the student's number?")
+prompt_list.append("The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is.")
+prompt_list.append("The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is.")
+prompt_list.append("The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is.")
+prompt_list.append("The answers for Question (16)-(20) are written as fractions. Provide each of them in the format ?/?")
 
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
