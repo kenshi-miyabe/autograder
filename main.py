@@ -18,6 +18,7 @@ for file_name in sorted(os.listdir(dir_students)):
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
 """
 
+"""
 # 画像からテキストを抽出
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
@@ -40,6 +41,7 @@ for file_name in sorted(os.listdir(dir_students)):
         base, ext = os.path.splitext(image_path)
         txt_path = base + ".txt"
         mylib.write_text_file(txt_path, output_list)
+"""
 
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
@@ -51,7 +53,7 @@ Read the following and output the student ID followed by answers (1) to (15) sep
 answer_file = "./correct_answer/answer.txt"
 
 for file_name in sorted(os.listdir(dir_students)):
-    if file_name.endswith(".txt"):
+    if file_name.endswith("_page1.txt"):
         txt_path = os.path.join(dir_students, file_name)
         print(f"{txt_path}を処理中")
         content = mylib.read_text_file(txt_path)
@@ -60,13 +62,15 @@ for file_name in sorted(os.listdir(dir_students)):
         #print(student_answers)
         student_answer_list = [item.strip() for item in student_answer.split(",")]
         student_answer_list.insert(0, os.path.basename(txt_path)[:10])
-        print(student_answer_list)
+        #print(student_answer_list)
+        #print(len(student_answer_list))
 
         correct_answer = mylib.read_text_file(answer_file)
         correct_answer_list = [item.strip() for item in correct_answer.split(",")]
-        print(correct_answer_list)
+        #print(correct_answer_list)
+        #print(len(correct_answer_list))
         grade_list = check.compare_lists(correct_answer_list, student_answer_list)
-        print(grade_list)
+        #print(grade_list)
 
         # テキストファイルに出力
         base, ext = os.path.splitext(txt_path)

@@ -97,4 +97,6 @@ def log_error(error_message, file_name="error.txt"):
         print(f"エラーが{file_name}に記録されました。")
     except Exception as e:
         print(f"エラーログの記録に失敗しました: {e}")
+    
+    return error_message
 
