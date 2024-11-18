@@ -27,7 +27,7 @@ prompt_list.append("The student's grade is 1, 2, 3 or 4, the student's class is 
 prompt_list.append("The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
 prompt_list.append("The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
 prompt_list.append("The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(problem-number) digit'.")
-prompt_list.append("The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(problem-number) ?/?'.")
+#prompt_list.append("The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(problem-number) ?/?'.")
 
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
@@ -44,8 +44,8 @@ for file_name in sorted(os.listdir(dir_students)):
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
 prompt0 = """
-Read the following and output the student ID followed by answers (1) to (20) separated by commas in this order.
-(e.g., 158R228020, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T)
+Read the following and output the student ID followed by answers (1) to (15) separated by commas in this order.
+(e.g., 158R228020, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O)
 =====
 """
 answer_file = "./correct_answer/answer.txt"

@@ -47,9 +47,9 @@ if __name__ == "__main__":
 #    prompt = "問題(1)から(5)に何と解答していますか．それぞれ大文字のアルファベットで答えて．"
 #    prompt = "The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is in the format `(number) letter'."
 #    prompt = "問題(6)から(10)の解答が小文字のアルファベットで書かれています．何と解答しているか，それぞれ答えて．"
-    prompt = "The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(number) letter'."
+#    prompt = "The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(number) letter'."
 #    prompt = "問題(11)から(15)の解答が1桁の数字で書かれています．何と解答しているか，それぞれ答えて．"
-#    prompt = "The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(number) digit'."
+    prompt = "The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(number) digit'."
 #    prompt = "問題(16)から(20)の解答が分数で書かれています．何と解答しているか，それぞれ答えて．"
 #    prompt = "The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(number) ?/?'."
 
