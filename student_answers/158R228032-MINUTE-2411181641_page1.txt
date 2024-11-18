@@ -1,2 +1,37 @@
-ファイル名,学生番号,学生番号(読み取り)
-158R228032-MINUTE-2411181641_page1.txt,158R228032,学生番号: 158R228032
+The student ID (starting with 158R) is:
+
+158R228032
+The student's number is 37.
+The answers to problems (1) through (5) are written in uppercase letters of the alphabet. Here they are:
+
+1. C
+2. R
+3. U
+4. Y
+5. A
+The answers to problems (6) through (10) are written in lowercase letters of the alphabet. Here they are:
+
+- Problem 6: a
+- Problem 7: j
+- Problem 8: m
+- Problem 9: p
+- Problem 10: a
+The answers to problems (11) through (15) are written as single-digit numbers. Here they are:
+
+11. 4
+12. 7
+13. 9
+14. 2
+15. 3
+Sure, here are the answers in the requested format:
+
+1. 1/2
+2. 3/4
+3. 5/6
+4. 7/8
+5. 9/10
+6. 11/12
+7. 13/14
+8. 15/16
+9. 17/18
+10. 19/20

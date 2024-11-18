@@ -24,10 +24,10 @@ model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
 prompt_list.append("Provide the student ID (starting with 158R).")
 prompt_list.append("The student's grade is 1, 2, 3 or 4, the student's class is 16. Then, what is the student's number?")
-prompt_list.append("The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is.")
-prompt_list.append("The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is.")
-prompt_list.append("The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is.")
-prompt_list.append("The answers for Question (16)-(20) are written as fractions. Provide each of them in the format ?/?")
+prompt_list.append("The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
+prompt_list.append("The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
+prompt_list.append("The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(problem-number) digit'.")
+prompt_list.append("The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(problem-number) ?/?'.")
 
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
@@ -39,33 +39,41 @@ for file_name in sorted(os.listdir(dir_students)):
         # テキストファイルに出力
         base, ext = os.path.splitext(image_path)
         txt_path = base + ".txt"
-        with open(txt_path, "w", encoding="utf-8") as file:
-            # 各要素を1行ずつ書き込む
-            for line in output_list:
-                file.write(line + "\n")  # 各行の最後に改行を追加
+        mylib.write_text_file(txt_path, output_list)
 
+# モデル名、プロンプトを設定
+model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
+prompt0 = """
+Read the following and output the student ID followed by answers (1) to (20) separated by commas in this order.
+(e.g., 158R228020, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T)
+=====
 """
-# 解答の正誤判定
-answer_file = "./correct_answer/answer.csv"
-df_correct_answer = mylib.load_csv(answer_file)
-if df_correct_answer is None:
-    mylib.log_error("エラー: 模範解答ファイルからデータを読み込めませんでした．")
+answer_file = "./correct_answer/answer.txt"
 
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".txt"):
         txt_path = os.path.join(dir_students, file_name)
         print(f"{txt_path}を処理中")
-        df_your_answer = mylib.load_csv(txt_path)
-        if df_your_answer is None:
-            mylib.log_error("エラー: 学生解答ファイルからデータを読み込めませんでした．")
+        content = mylib.read_text_file(txt_path)
+        prompt = prompt0 + content
+        student_answer = check.generate_with_prompt(model_path, prompt)
+        #print(student_answers)
+        student_answer_list = [item.strip() for item in student_answer.split(",")]
+        student_answer_list.insert(0, os.path.basename(txt_path)[:10])
+        print(student_answer_list)
 
-        # 比較
-        result = check.compare_lists(df_correct_answer.iloc[0], df_your_answer.iloc[0])
-        print(result)
+        correct_answer = mylib.read_text_file(answer_file)
+        correct_answer_list = [item.strip() for item in correct_answer.split(",")]
+        print(correct_answer_list)
+        grade_list = check.compare_lists(correct_answer_list, student_answer_list)
+        print(grade_list)
 
-        # 結果をCSVファイルに追記
-        mylib.write_to_csv(txt_path, result, mode='a')
+        # テキストファイルに出力
+        base, ext = os.path.splitext(txt_path)
+        txt_path = base + "-grade.txt"
+        mylib.write_to_csv(txt_path, [student_answer_list, grade_list], None)
 
+"""
 # Excelファイルと同じ行になるように成績を整形
 report_excel = "./correct_answer/report_summary.xlsx"
 # レポートまとめファイルから2番目のシート（インデックス1）を読み込む
