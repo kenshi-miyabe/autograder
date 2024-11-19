@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 import mylib
-#import pdf_to_jpg
-#import image_to_text
-#import check
+import pdf_to_jpg
+import image_to_text
+import check
 import reformulate
 
 # 学生の解答用紙ファイルのディレクトリ設定
