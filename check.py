@@ -60,7 +60,7 @@ def compare_lists(list1, list2):
 if __name__ == "__main__":
     # モデル名、プロンプトを設定
     model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
-prompt0 = """
+    prompt0 = """
 Read the following input and extract the answers to questions (1) through (15).
 Output the answers separated by commas.
 For example: A, B, C, D, E, F, G, H, I, J, K, L, M, N, O.
