@@ -1,2 +1,4 @@
 student_answers/
 correct_answer/
+__pycache__/
+.DS_Store
