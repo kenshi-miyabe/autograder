@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import re
 import mylib
 import pdf_to_jpg
 import image_to_text
@@ -10,14 +11,12 @@ import reformulate
 dir_students = './student_answers'
 problem_length = 10
 
-"""
 # pdfファイルをjpgに変換
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".pdf"):
         pdf_path = os.path.join(dir_students, file_name)
         print(f"{pdf_path}を処理中")
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
-"""
 
 # 画像からテキストを抽出
 # モデル名、プロンプトを設定
@@ -31,7 +30,8 @@ prompt_list = []
 #prompt_list.append("The answers to problems (1) through (10) are written as single-digit numbers. State what each of them is in the format `(problem-number) digit'.")
 #prompt_list.append("The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(problem-number) ?/?'.")
 prompt = """
-From the image, list the answers to problems (1) through (10) as single-digit numbers. Example:  
+The answers to problems (1) through (10) are written as single-digit numbers.
+Provide the answers in the format '(problem-number) digit'. Example:  
 ===
 (1) 0
 (2) 0
@@ -42,7 +42,6 @@ From the image, list the answers to problems (1) through (10) as single-digit nu
 """
 prompt_list.append(prompt)
 
-#"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
@@ -54,13 +53,12 @@ for file_name in sorted(os.listdir(dir_students)):
         base, ext = os.path.splitext(image_path)
         txt_path = base + ".txt"
         mylib.write_text_file(txt_path, output_list)
-#"""
 
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
 prompt0 = """
-Read the following input and extract the answers to questions (1) through (10).
-Output the result separated by commas. Example:
+The answers to problems (1) through (10) are written as single-digit numbers.
+Output the answers separated by commas in order. Example:
 ===
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ===
@@ -75,6 +73,7 @@ for file_name in sorted(os.listdir(dir_students)):
         content = mylib.read_text_file(txt_path)
         prompt = prompt0 + content
         student_answer = check.generate_with_prompt(model_path, prompt)
+        student_answer = re.sub(r'[^0-9,]', '', student_answer) # 数字とカンマ以外を削除
         print(student_answer)
         student_answer_list = check.text_to_list(student_answer, problem_length)
         student_answer_list.insert(0, "-".join(student_answer_list))
