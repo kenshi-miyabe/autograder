@@ -9,7 +9,6 @@ import reformulate
 
 # 学生の解答用紙ファイルのディレクトリ設定
 dir_students = './student_answers'
-problem_length = 10
 
 # pdfファイルをjpgに変換
 for file_name in sorted(os.listdir(dir_students)):
@@ -19,6 +18,7 @@ for file_name in sorted(os.listdir(dir_students)):
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
 
 # 画像からテキストを抽出
+problem_length = 10
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
