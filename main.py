@@ -22,13 +22,6 @@ for file_name in sorted(os.listdir(dir_students)):
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
-#prompt_list.append("Provide the student ID (starting with 158R).")
-#prompt_list.append("The student's grade is 1, 2, 3 or 4, the student's class is 16. Then, what is the student's number?")
-#prompt_list.append("The answers to problems (1) through (5) are written in uppercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
-#prompt_list.append("The answers to problems (6) through (10) are written in lowercase letters of the alphabet. State what each of them is in the format `(problem-number) letter'.")
-#prompt_list.append("The answers to problems (11) through (15) are written as single-digit numbers. State what each of them is in the format `(problem-number) digit'.")
-#prompt_list.append("The answers to problems (1) through (10) are written as single-digit numbers. State what each of them is in the format `(problem-number) digit'.")
-#prompt_list.append("The answers for problems (16)-(20) are written as fractions. Provide each of them in the format `(problem-number) ?/?'.")
 prompt = """
 The answers to problems (1) through (10) are written as single-digit numbers.
 Provide the answers in the format '(problem-number) digit'. Example:  
@@ -54,6 +47,7 @@ for file_name in sorted(os.listdir(dir_students)):
         txt_path = base + ".txt"
         mylib.write_text_file(txt_path, output_list)
 
+
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
 prompt0 = """
@@ -63,7 +57,7 @@ Output the answers separated by commas in order. Example:
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ===
 """
-#answer_file = "./correct_answer/answer.txt"
+
 
 #"""
 for file_name in sorted(os.listdir(dir_students)):
@@ -79,11 +73,6 @@ for file_name in sorted(os.listdir(dir_students)):
         student_answer_list.insert(0, "-".join(student_answer_list))
         student_answer_list.insert(0, os.path.basename(txt_path)[:10])
         student_answer_list.insert(0, os.path.basename(txt_path))
-
-        #correct_answer = mylib.read_text_file(answer_file)
-        #correct_answer_list = check.text_to_list(correct_answer, problem_length+2)
-        
-        #grade_list = check.compare_lists(correct_answer_list, student_answer_list)
         
         # テキストファイルに出力
         base, ext = os.path.splitext(txt_path)
