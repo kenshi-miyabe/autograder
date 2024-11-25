@@ -18,19 +18,19 @@ for file_name in sorted(os.listdir(dir_students)):
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
 
 # 画像からテキストを抽出
-problem_length = 10
+problem_length = 50
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
 prompt_list = []
 prompt = """
-The answers to problems (1) through (10) are written as single-digit numbers.
+The answers to problems (1) through (50) are written as single-digit numbers.
 Provide the answers in the format '(problem-number) digit'. Example:  
 ===
 (1) 0
 (2) 0
 (3) 0
 ...
-(10) 0
+(50) 0
 ===
 """
 prompt_list.append(prompt)
@@ -51,10 +51,10 @@ for file_name in sorted(os.listdir(dir_students)):
 # モデル名、プロンプトを設定
 model_path = "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
 prompt0 = """
-The answers to problems (1) through (10) are written as single-digit numbers.
+The answers to problems (1) through (50) are written as single-digit numbers.
 Output the answers separated by commas in order. Example:
 ===
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
 ===
 """
 

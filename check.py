@@ -22,7 +22,7 @@ def generate_with_prompt(model, prompt):
     prompt = tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=True
     )
-    response = generate(model, tokenizer, prompt=prompt, verbose=False)
+    response = generate(model, tokenizer, prompt=prompt, max_tokens=500, verbose=False)
     return response
 
 def text_to_list(text, correct_len):
