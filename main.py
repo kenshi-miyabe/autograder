@@ -9,13 +9,13 @@ import image_to_text
 dir_students = './student_answers'
 
 # pdfファイルをjpgに変換
-"""
+#"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".pdf"):
         pdf_path = os.path.join(dir_students, file_name)
         print(f"{pdf_path}を処理中")
         pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
-"""
+#"""
 
 # 画像からテキストを抽出
 problem_length = 50
@@ -35,7 +35,7 @@ Provide the answers in the format '(problem-number) digit'. Example:
 """
 prompt_list.append(prompt)
 
-"""
+#"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
@@ -47,7 +47,7 @@ for file_name in sorted(os.listdir(dir_students)):
         base, ext = os.path.splitext(image_path)
         txt_path = base + ".txt"
         mylib.write_text_file(txt_path, output_list)
-"""
+#"""
 
 #テキストファイルからデータフレームの作成
 columns = ["学生番号"] + [f"Q{i}" for i in range(1, problem_length+1)]
