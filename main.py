@@ -4,6 +4,7 @@ import re
 import mylib
 import pdf_to_jpg
 import image_to_text
+import txt_to_df
 
 # 学生の解答用紙ファイルのディレクトリ設定
 dir_students = './student_answers'
@@ -20,12 +21,22 @@ for file_name in sorted(os.listdir(dir_students)):
 # 画像からテキストを抽出
 problem_length = 50
 # モデル名、プロンプトを設定
-model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"
+model_path_list = ["mlx-community/Qwen2-VL-7B-Instruct-4bit",
+                "mlx-community/pixtral-12b-4bit"]
+model_name_list = ["Qwen2",
+                "Pixtral"]
+#mlx-community/Qwen2-VL-7B-Instruct-4bit
+#mlx-community/Qwen2-VL-2B-Instruct-bf16
+#mlx-community/pixtral-12b-4bit
+#mlx-community/Phi-3.5-vision-instruct-bf16
+#mlx-community/Phi-3-vision-128k-instruct-4bit
+#mlx-community/Llama-3.2-3B-Instruct-8bit
 prompt_list = []
 prompt = """
 The answers to problems (1) through (50) are written as single-digit numbers.
-Provide the answers in the format '(problem-number) digit'. Example:  
+Provide only the answers in the format '(problem-number) digit'. Example:  
 ===
+Answers:
 (1) 0
 (2) 0
 (3) 0
@@ -41,31 +52,34 @@ for file_name in sorted(os.listdir(dir_students)):
         image_path = os.path.join(dir_students, file_name)
 
         print(f"{image_path}を処理中")
-        output_list = image_to_text.process_images_with_prompt(model_path, [image_path], prompt_list)
-        
-        # テキストファイルに出力
-        base, ext = os.path.splitext(image_path)
-        txt_path = base + ".txt"
-        mylib.write_text_file(txt_path, output_list)
+        for model_path, model_name in zip(model_path_list, model_name_list):
+            output_list = image_to_text.process_images_with_prompt(model_path, [image_path], prompt_list)
+
+            # テキストファイルに出力
+            base, ext = os.path.splitext(image_path)
+            txt_path = base + "-" + model_name + ".txt"
+            mylib.write_text_file(txt_path, output_list)
 #"""
 
 #テキストファイルからデータフレームの作成
 columns = ["学生番号"] + [f"Q{i}" for i in range(1, problem_length+1)]
-df_student = pd.DataFrame(columns=columns)
-for file_name in sorted(os.listdir(dir_students)):
-    if file_name.endswith("_page1.txt"):
-        txt_path = os.path.join(dir_students, file_name)
-        print(f"{txt_path}を処理中")
-        content = mylib.read_text_file(txt_path)
-        cleaned_text = re.sub(r"[^\d()\n]","", content)
-        answer_list = [None] * problem_length
-        for i in range(1,problem_length+1):
-            match = re.search(rf"\({i}\)(\S+)", cleaned_text)
-            if match:
-                answer_list[i-1] = match.group(1)
-        answer_list.insert(0, os.path.basename(txt_path)[:10])
-        df_student.loc[len(df_student)] = answer_list
-        print(answer_list)
+df1 = txt_to_df.construct_df(dir_students, "_page1-Qwen2.txt", columns, problem_length)
+df2 = txt_to_df.construct_df(dir_students, "_page1-Pixtral.txt", columns, problem_length)
+df_student = df1
+print(df_student.head())
+
+# 全ての列について値の違いを検出
+differences = (df1 != df2)
+
+# 相違のある行と列を抽出
+if differences.any().any():
+    diff_indices = differences[differences].stack().index.tolist()
+    for row, col in diff_indices:
+        log = f"Difference found at row {row}, column '{col}': df1={df1.at[row, col]}, df2={df2.at[row, col]}"
+        print(log)
+        mylib.log_error(log)
+else:
+    print("The DataFrames are identical.")
 
 # Excelファイルからデータフレームの作成
 report_excel = "./correct_answer/report_summary.xlsx"
