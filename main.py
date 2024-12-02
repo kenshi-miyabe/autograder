@@ -77,7 +77,7 @@ if differences.any().any():
     for row, col in diff_indices:
         log = f"Difference found at row {row}, column '{col}': df1={df1.at[row, col]}, df2={df2.at[row, col]}"
         print(log)
-        mylib.log_error(log)
+        mylib.log_error(log, file_name="./correct_answer/diff_log.txt")
 else:
     print("The DataFrames are identical.")
 
