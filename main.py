@@ -62,7 +62,7 @@ for file_name in sorted(os.listdir(dir_students)):
 #"""
 
 #テキストファイルからデータフレームの作成
-columns = ["学生番号"] + [f"Q{i}" for i in range(1, problem_length+1)]
+columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
 df1 = txt_to_df.construct_df(dir_students, "_page1-Qwen2.txt", columns, problem_length)
 df2 = txt_to_df.construct_df(dir_students, "_page1-Pixtral.txt", columns, problem_length)
 df_student = df1
