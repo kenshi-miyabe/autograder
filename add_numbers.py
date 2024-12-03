@@ -2,8 +2,9 @@
 import os
 import pandas as pd
 import mylib
+import txt_to_df
 
-dir_student = "./student_answers"
+dir_students = "./student_answers"
 report_excel = "./correct_answer/report_summary.xlsx"
 
 # レポートまとめファイルを読み込む
@@ -12,7 +13,7 @@ df_report["識別子"] = df_report[["所属", "学年", "組", "番号"]].fillna
 print(df_report.head())
 
 # ディレクトリ内のファイルを取得
-for file_name in os.listdir(dir_student):
+for file_name in os.listdir(dir_students):
     # ファイル名が数字で始まり、.pdfで終わるものを判定
     if file_name[0].isdigit():
         # 最初の10文字を取り出す
@@ -30,8 +31,9 @@ for file_name in os.listdir(dir_student):
             new_file_name = f"{identifier}_{file_name}"
 
             # ファイルのリネーム処理
-            old_file_path = os.path.join(dir_student, file_name)
-            new_file_path = os.path.join(dir_student, new_file_name)
+            old_file_path = os.path.join(dir_students, file_name)
+            new_file_path = os.path.join(dir_students, new_file_name)
             os.rename(old_file_path, new_file_path)
 
             print(f"Renamed: {file_name} -> {new_file_name}")
+

@@ -10,7 +10,7 @@ import txt_to_df
 dir_students = './student_answers'
 
 # pdfファイルをjpgに変換
-#"""
+"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".pdf"):
         pdf_path = os.path.join(dir_students, file_name)
@@ -46,7 +46,7 @@ Answers:
 """
 prompt_list.append(prompt)
 
-#"""
+"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
@@ -75,7 +75,7 @@ differences = (df1 != df2)
 if differences.any().any():
     diff_indices = differences[differences].stack().index.tolist()
     for row, col in diff_indices:
-        log = f"Difference found at row {row}, column '{col}': df1={df1.at[row, col]}, df2={df2.at[row, col]}"
+        log = f"Diff at ID '{df1.at[row,"学生番号"]}', column '{col}': df1={df1.at[row, col]}, df2={df2.at[row, col]}"
         print(log)
         mylib.log_error(log, file_name="./correct_answer/diff_log.txt")
 else:
