@@ -10,7 +10,7 @@ import txt_to_df
 dir_students = './student_answers'
 
 # pdfファイルをjpgに変換
-"""
+#"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith(".pdf"):
         pdf_path = os.path.join(dir_students, file_name)
@@ -22,15 +22,16 @@ for file_name in sorted(os.listdir(dir_students)):
 problem_length = 50
 # モデル名、プロンプトを設定
 model_path_list = ["mlx-community/Qwen2-VL-7B-Instruct-4bit",
-                "mlx-community/pixtral-12b-4bit"]
+                "mlx-community/Molmo-7B-D-0924-4bit"]
 model_name_list = ["Qwen2",
-                "Pixtral"]
+                "Molmo"]
 #mlx-community/Qwen2-VL-7B-Instruct-4bit
 #mlx-community/Qwen2-VL-2B-Instruct-bf16
 #mlx-community/pixtral-12b-4bit
 #mlx-community/Phi-3.5-vision-instruct-bf16
 #mlx-community/Phi-3-vision-128k-instruct-4bit
 #mlx-community/Llama-3.2-3B-Instruct-8bit
+#mlx-community/Molmo-7B-D-0924-4bit
 prompt_list = []
 prompt = """
 The answers to problems (1) through (50) are written as single-digit numbers.
@@ -46,7 +47,7 @@ Answers:
 """
 prompt_list.append(prompt)
 
-"""
+#"""
 for file_name in sorted(os.listdir(dir_students)):
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
@@ -64,7 +65,7 @@ for file_name in sorted(os.listdir(dir_students)):
 #テキストファイルからデータフレームの作成
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
 df1 = txt_to_df.construct_df(dir_students, "_page1-Qwen2.txt", columns, problem_length)
-df2 = txt_to_df.construct_df(dir_students, "_page1-Pixtral.txt", columns, problem_length)
+df2 = txt_to_df.construct_df(dir_students, "_page1-Molmo.txt", columns, problem_length)
 df_student = df1
 print(df_student.head())
 
