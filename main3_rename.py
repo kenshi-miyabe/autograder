@@ -1,3 +1,6 @@
+
+# txtファイルの整理
+
 import os
 
 target_substr = "_page1-Qwen2-72B"

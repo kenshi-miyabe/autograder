@@ -1,3 +1,12 @@
+
+# pdfから文字を読み取りtxtファイルに保存
+# 複数モデルで結果を比較して差異を抽出する
+# その後，手動でdiff_log, txt, pdfを見ながらtxtを修正する
+
+# 学生の解答用紙ファイルのディレクトリ設定
+dir_students = './student_answers'
+diff_log = "./correct_answer/diff_log.txt"
+
 import os
 import pandas as pd
 import re
@@ -6,8 +15,6 @@ import pdf_to_jpg
 import image_to_text
 import txt_to_df
 
-# 学生の解答用紙ファイルのディレクトリ設定
-dir_students = './student_answers'
 
 # pdfファイルをjpgに変換
 #"""
@@ -82,19 +89,8 @@ if differences:
     for row, col in differences:
         log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1=df2={df1.iat[row, col]}"
         print(log)
-        mylib.log_error(log, file_name="./correct_answer/diff_log.txt")
+        mylib.log_error(log, file_name=diff_log)
 else:
     print("No shared objection.")
 
-# Excelファイルからデータフレームの作成
-report_excel = "./correct_answer/report_summary.xlsx"
-df_report = mylib.read_excel(report_excel, sheet_name=0, header=0, dtype=str)
-print(df_report.head())
 
-# マージ
-merged_df = pd.merge(df_report, df_student, on="学生番号", how="left")
-print(merged_df.head())
-
-# データフレームをCSVファイルとして保存
-output_file = "./correct_answer/grade.csv"  # 保存するファイル名
-merged_df.to_csv(output_file, index=False, encoding="utf-8-sig")
