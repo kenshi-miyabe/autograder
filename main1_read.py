@@ -28,12 +28,16 @@ for file_name in sorted(os.listdir(dir_students)):
 # 画像からテキストを抽出
 problem_length = 50
 # モデル名、プロンプトを設定
-model_path_list = ["mlx-community/Qwen2-VL-72B-Instruct-4bit",
-                "mlx-community/pixtral-12b-8bit",
-                "mlx-community/Qwen2-VL-7B-Instruct-8bit"]
-model_name_list = ["Qwen2-72B",
-                "Pixtral",
-                "Qwen2-7B"]
+model_path_list = ["mlx-community/deepseek-vl2-small-4bit"]
+model_name_list = ["DeepSeek"]
+#model_path_list = ["mlx-community/Qwen2-VL-7B-Instruct-4bit"]
+#model_name_list = ["Qwen2-7B"]
+#model_path_list = ["mlx-community/Qwen2-VL-72B-Instruct-4bit",
+#                "mlx-community/pixtral-12b-8bit",
+#                "mlx-community/Qwen2-VL-7B-Instruct-8bit"]
+#model_name_list = ["Qwen2-72B",
+#                "Pixtral",
+#                "Qwen2-7B"]
 #mlx-community/Qwen2-VL-7B-Instruct-4bit
 #mlx-community/Qwen2-VL-2B-Instruct-bf16
 #mlx-community/pixtral-12b-4bit
