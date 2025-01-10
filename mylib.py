@@ -70,12 +70,10 @@ def read_text_file(file_path):
         log_error(f"エラーが発生しました: {e}")
 
 # ファイルを書き込む関数
-def write_text_file(file_path, content_list):
+def write_text_file(file_path, content):
     try:
         with open(file_path, 'w', encoding='utf-8') as file:
-            # 各要素を1行ずつ書き込む
-            for line in content_list:
-                file.write(line + "\n")  # 各行の最後に改行を追加
+            file.write(content)
         print(f"ファイルを{file_path}に書き込みました。")
     except Exception as e:
         log_error(f"エラーが発生しました: {e}")

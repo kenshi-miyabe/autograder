@@ -11,11 +11,11 @@ def construct_df(dir_name, end_str, columns, problem_length):
             txt_path = os.path.join(dir_name, file_name)
             print(f"{txt_path}を処理中")
             content = mylib.read_text_file(txt_path)
-            #cleaned_text = re.sub(r"[^\d()\n]","", content)
+            cleaned_text = re.sub(r"[^\d()\n]","", content)
             answer_list = [None] * problem_length
             for i in range(1,problem_length+1):
                 #match = re.search(rf"\({i}\)(\S+)", cleaned_text)
-                match = re.search(rf"\({i}\)\s(\d)", content)
+                match = re.search(rf"\({i}\)(\d)", cleaned_text)
                 if match:
                     answer_list[i-1] = match.group(1)
             answer_list.insert(0, os.path.basename(txt_path)[:10])
