@@ -11,14 +11,19 @@ def construct_df(dir_name, end_str, columns, problem_length):
             txt_path = os.path.join(dir_name, file_name)
             print(f"{txt_path}を処理中")
             content = mylib.read_text_file(txt_path)
-            cleaned_text = re.sub(r"[^\d()\n]","", content)
-            answer_list = [None] * problem_length
-            for i in range(1,problem_length+1):
-                #match = re.search(rf"\({i}\)(\S+)", cleaned_text)
-                match = re.search(rf"\({i}\)(\d)", cleaned_text)
-                if match:
-                    answer_list[i-1] = match.group(1)
+            # 数字、()、_, ? 以外を削除
+            cleaned_text = re.sub(r"[^\d\(\)_\?\n]", "", content)
+            answer_list = ["_"] * problem_length  # 初期値を "_" に設定
+            
+            for i in range(1, problem_length + 1):
+                # 正規表現を修正し、解答が _ または ? の場合にも対応
+                match = re.search(rf"\({i}\)\s*([\d\_?])?", cleaned_text)
+                if match and match.group(1):  # 解答が存在する場合のみ値を設定
+                    answer_list[i - 1] = match.group(1)
+            
+            # ファイル名から最初の10文字を抽出して挿入
             answer_list.insert(0, os.path.basename(txt_path)[:10])
+            # データフレームに行を追加
             df.loc[len(df)] = answer_list
     return df
 

@@ -42,7 +42,7 @@ model_name_list = ["QVQ",
 
 prompt = """
 The main section of the document consists of a grid with 50 questions, numbered from 1 to 50.
-Each question has a single-digit handwritten answer.
+Each question has a single-digit handwritten answer or possibly blank.
 Your task is to output the answers accurately in plain text directly within this response, without referencing or creating any files.
 
 First, output the points to be noted.
@@ -52,13 +52,16 @@ Format each answer on a separate line in the following style (without using TeX 
 (Question number) Answer's digit
 =====
 Make sure the question number is enclosed in parentheses.
+If the answer is blank, replace `Answer's digit' with `_'.
+If the answer is illegible, replace it with `?'.
 
 Example final output:
 =====
 **Final Answer**
 (1) 0
 (2) 0
-(3) 0
+(3) _
+(4) ?
 =====
 """
 
