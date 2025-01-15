@@ -13,6 +13,7 @@ import re
 import mylib
 import pdf_to_jpg
 import image_to_text
+import image_to_text_ollama
 import txt_to_df
 
 
@@ -26,25 +27,19 @@ for file_name in sorted(os.listdir(dir_students)):
 #"""
 
 # 画像からテキストを抽出
-problem_length = 50
 # モデル名、プロンプトを設定
-model_path_list = ["mlx-community/QVQ-72B-Preview-4bit",
-                "mlx-community/Qwen2-VL-72B-Instruct-4bit",
-                "mlx-community/pixtral-12b-bf16"]
-model_name_list = ["QVQ",
-                "Qwen2-72B",
-                "Pixtral"]
-#model_path_list = ["mlx-community/pixtral-12b-4bit",
-#                "mlx-community/Qwen2-VL-7B-Instruct-8bit"]
-#model_name_list = ["Pixtral",
-#                "Qwen2-7B"]
-#mlx-community/Qwen2-VL-7B-Instruct-4bit
-#mlx-community/Qwen2-VL-2B-Instruct-bf16
-#mlx-community/pixtral-12b-4bit
-#mlx-community/Phi-3.5-vision-instruct-bf16
-#mlx-community/Phi-3-vision-128k-instruct-4bit
-#mlx-community/Llama-3.2-11B-Vision-Instruct-4bit
-#mlx-community/Molmo-7B-D-0924-4bit
+#arg_list = [
+#    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000},
+#    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000},
+#    {'model_path': "mlx-community/pixtral-12b-bf16", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}
+#]
+arg_list = [
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000},
+    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000},
+    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000},
+    {'model_path': "llama3.2-vision", 'model_name': "llama", 'type': "ollama", 'max_tokens': 5000},
+#    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
+]
 
 prompt = """
 The main section of the document consists of a grid with 50 questions, numbered from 1 to 50.
@@ -78,10 +73,22 @@ for file_name in sorted(os.listdir(dir_students)):
 
     if file_name.endswith("_page1.jpg"):
         image_path = os.path.join(dir_students, file_name)
-
         print(f"{image_path}を処理中")
-        for model_path, model_name in zip(model_path_list, model_name_list):
-            output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt)
+
+        for model_info in arg_list:
+            model_path = model_info['model_path']
+            model_name = model_info['model_name']
+            model_type = model_info['type']
+            max_tokens = model_info['max_tokens']
+            if model_type == "mlx":
+                print(f"{model_path}で{image_path}を処理中")
+                output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt, max_tokens)
+            elif model_type == "ollama":
+                print(f"{model_path}で{image_path}を処理中")
+                output = image_to_text_ollama.process_images_with_prompt(model_path, [image_path], prompt, max_tokens)
+            else :
+                print("Error: unknown model type.")
+                break
             final_output = image_to_text.extract_from_marker(output, "Final Answer")
 
             # テキストファイルに出力
@@ -91,27 +98,31 @@ for file_name in sorted(os.listdir(dir_students)):
 #"""
 
 #テキストファイルからデータフレームの作成
+problem_length = 50
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
-df0 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[0] + ".txt", columns, problem_length)
-df1 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[1] + ".txt", columns, problem_length)
-df2 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[2] + ".txt", columns, problem_length)
-df_student = df0
-print(df_student.head())
+df_list = []
+for model_info in arg_list:
+    model_name = model_info['model_name']
+    df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
+df_majority = txt_to_df.majority_vote_from_list(df_list)
+print(df_majority.head())
+for df in df_list:
+    print(txt_to_df.calculate_match_rate(df_majority, df))
 
-differences = []
-for row in range(df0.shape[0]):
-    for col in range(df0.shape[1]):
-        if df0.iat[row, col] != df1.iat[row, col] or df0.iat[row, col] != df2.iat[row, col]:
+#differences = []
+#for row in range(df0.shape[0]):
+#    for col in range(df0.shape[1]):
+#        if df0.iat[row, col] != df1.iat[row, col] or df0.iat[row, col] != df2.iat[row, col]:
 #        if df0.iat[row, col] != df1.iat[row, col]:
-            differences.append((row, col))
+#            differences.append((row, col))
 
 # 相違のある行と列を抽出
-if differences:
-    for row, col in differences:
-        log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1={df1.iat[row, col]}, df2={df2.iat[row, col]}"
-        print(log)
-        mylib.log_error(log, file_name=diff_log)
-else:
-    print("No objection.")
+#if differences:
+#    for row, col in differences:
+#        log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1={df1.iat[row, col]}, df2={df2.iat[row, col]}"
+#        print(log)
+#        mylib.log_error(log, file_name=diff_log)
+#else:
+#    print("No objection.")
 
 
