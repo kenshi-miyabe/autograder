@@ -1,9 +1,11 @@
 
 # txtファイルの整理
+# target_substrが含まれる場合，その部分を削除
+# target_substrが含まれない場合，ファイルを削除
 
 import os
 
-target_substr = "_page1-Qwen2-72B"
+target_substr = "_page1-QVQ"
 dir = './student_answers'
 
 for filename in os.listdir(dir):

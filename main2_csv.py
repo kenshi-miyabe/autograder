@@ -1,12 +1,13 @@
 
 # txtからcsvへの変換
+# target_substrが含まれるファイルからcsvファイルを作成
 
 import pandas as pd
 import txt_to_df
 import mylib
 
 dir_students = './student_answers'
-target_substr = "_page1-Qwen2-72B.txt"
+target_substr = "_page1-QVQ.txt"
 report_excel = "./correct_answer/report_summary.xlsx"
 output_file = "./correct_answer/grade.csv"  # 保存するファイル名
 problem_length = 50
