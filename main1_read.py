@@ -28,14 +28,16 @@ for file_name in sorted(os.listdir(dir_students)):
 # 画像からテキストを抽出
 problem_length = 50
 # モデル名、プロンプトを設定
-#model_path_list = ["mlx-community/QVQ-72B-Preview-4bit",
-#                "mlx-community/Qwen2-VL-72B-Instruct-4bit"]
-#model_name_list = ["QVQ",
-#                "Qwen2-72B"]
-model_path_list = ["mlx-community/pixtral-12b-4bit",
-                "mlx-community/Qwen2-VL-7B-Instruct-4bit"]
-model_name_list = ["Pixtral",
-                "Qwen2-7B"]
+model_path_list = ["mlx-community/QVQ-72B-Preview-4bit",
+                "mlx-community/Qwen2-VL-72B-Instruct-4bit",
+                "mlx-community/pixtral-12b-bf16"]
+model_name_list = ["QVQ",
+                "Qwen2-72B",
+                "Pixtral"]
+#model_path_list = ["mlx-community/pixtral-12b-4bit",
+#                "mlx-community/Qwen2-VL-7B-Instruct-8bit"]
+#model_name_list = ["Pixtral",
+#                "Qwen2-7B"]
 #mlx-community/Qwen2-VL-7B-Instruct-4bit
 #mlx-community/Qwen2-VL-2B-Instruct-bf16
 #mlx-community/pixtral-12b-4bit
@@ -92,21 +94,21 @@ for file_name in sorted(os.listdir(dir_students)):
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
 df0 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[0] + ".txt", columns, problem_length)
 df1 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[1] + ".txt", columns, problem_length)
-#df2 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[2] + ".txt", columns, problem_length)
+df2 = txt_to_df.construct_df(dir_students, "_page1-" + model_name_list[2] + ".txt", columns, problem_length)
 df_student = df0
 print(df_student.head())
 
 differences = []
 for row in range(df0.shape[0]):
     for col in range(df0.shape[1]):
-#        if df0.iat[row, col] != df1.iat[row, col] or df1.iat[row, col] != df2.iat[row, col]:
-        if df0.iat[row, col] != df1.iat[row, col]:
+        if df0.iat[row, col] != df1.iat[row, col] or df0.iat[row, col] != df2.iat[row, col]:
+#        if df0.iat[row, col] != df1.iat[row, col]:
             differences.append((row, col))
 
 # 相違のある行と列を抽出
 if differences:
     for row, col in differences:
-        log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1={df1.iat[row, col]}"
+        log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1={df1.iat[row, col]}, df2={df2.iat[row, col]}"
         print(log)
         mylib.log_error(log, file_name=diff_log)
 else:
