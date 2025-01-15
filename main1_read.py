@@ -28,10 +28,14 @@ for file_name in sorted(os.listdir(dir_students)):
 # 画像からテキストを抽出
 problem_length = 50
 # モデル名、プロンプトを設定
-model_path_list = ["mlx-community/QVQ-72B-Preview-4bit",
-                "mlx-community/Qwen2-VL-72B-Instruct-4bit"]
-model_name_list = ["QVQ",
-                "Qwen2-72B"]
+#model_path_list = ["mlx-community/QVQ-72B-Preview-4bit",
+#                "mlx-community/Qwen2-VL-72B-Instruct-4bit"]
+#model_name_list = ["QVQ",
+#                "Qwen2-72B"]
+model_path_list = ["mlx-community/pixtral-12b-4bit",
+                "mlx-community/Qwen2-VL-7B-Instruct-4bit"]
+model_name_list = ["Pixtral",
+                "Qwen2-7B"]
 #mlx-community/Qwen2-VL-7B-Instruct-4bit
 #mlx-community/Qwen2-VL-2B-Instruct-bf16
 #mlx-community/pixtral-12b-4bit
@@ -95,7 +99,7 @@ print(df_student.head())
 differences = []
 for row in range(df0.shape[0]):
     for col in range(df0.shape[1]):
-#        if df0.iat[row, col] != df1.iat[row, col] and df1.iat[row, col] == df2.iat[row, col]:
+#        if df0.iat[row, col] != df1.iat[row, col] or df1.iat[row, col] != df2.iat[row, col]:
         if df0.iat[row, col] != df1.iat[row, col]:
             differences.append((row, col))
 
@@ -106,6 +110,6 @@ if differences:
         print(log)
         mylib.log_error(log, file_name=diff_log)
 else:
-    print("No shared objection.")
+    print("No objection.")
 
 
