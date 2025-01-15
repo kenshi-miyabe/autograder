@@ -28,7 +28,7 @@ def process_images_with_prompt(model_path, image_paths, prompt):
         processor, config, prompt, num_images=len(image_paths)
     )
     # 出力を生成
-    output = generate(model=model, processor=processor, prompt=formatted_prompt, image=image_paths, max_tokens = 10000, verbose=False)
+    output = generate(model=model, processor=processor, prompt=formatted_prompt, image=image_paths, max_tokens = 15000, verbose=False)
     
     return output
 

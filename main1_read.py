@@ -42,17 +42,17 @@ model_name_list = ["QVQ",
 
 prompt = """
 The main section of the document consists of a grid with 50 questions, numbered from 1 to 50.
-Each question has a single-digit handwritten answer or possibly blank.
+Each question has a single-digit handwritten answer or a cross mark.
 Your task is to output the answers accurately in plain text directly within this response, without referencing or creating any files.
 
 First, output the points to be noted.
 Then, output the string `**Final Answer**' followed by the answers to the questions.
-Format each answer on a separate line in the following style (without using TeX formatting):
+Format each answer on a separate line in the following style without using TeX formatting:
 =====
 (Question number) Answer's digit
 =====
 Make sure the question number is enclosed in parentheses.
-If the answer is blank, replace `Answer's digit' with `_'.
+If the answer is a cross mark, replace `Answer's digit' with `_'.
 If the answer is illegible, replace it with `?'.
 
 Example final output:
@@ -63,6 +63,8 @@ Example final output:
 (3) _
 (4) ?
 =====
+
+Ensure the final output is in plain text format, without TeX formatting or file references.
 """
 
 #"""
@@ -74,7 +76,7 @@ for file_name in sorted(os.listdir(dir_students)):
         print(f"{image_path}を処理中")
         for model_path, model_name in zip(model_path_list, model_name_list):
             output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt)
-            final_output = image_to_text.extract_from_marker(output, "**Final Answer**")
+            final_output = image_to_text.extract_from_marker(output, "Final Answer")
 
             # テキストファイルに出力
             base, ext = os.path.splitext(image_path)

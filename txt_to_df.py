@@ -13,7 +13,7 @@ def construct_df(dir_name, end_str, columns, problem_length):
             content = mylib.read_text_file(txt_path)
             # 数字、()、_, ? 以外を削除
             cleaned_text = re.sub(r"[^\d\(\)_\?\n]", "", content)
-            answer_list = ["_"] * problem_length  # 初期値を "_" に設定
+            answer_list = ["NA"] * problem_length  # 初期値を "NA" に設定
             
             for i in range(1, problem_length + 1):
                 # 正規表現を修正し、解答が _ または ? の場合にも対応
