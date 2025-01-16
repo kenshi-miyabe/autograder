@@ -4,7 +4,7 @@ from mlx_vlm.prompt_utils import apply_chat_template
 from mlx_vlm.utils import generate, get_model_path, load, load_config, load_image_processor
 
 
-def process_images_with_prompt(model_path, image_paths, prompt, max_tokens):
+def process_images_with_prompt(model_path, image_paths, prompt, max_tokens=5000, temp=0):
     """
     モデル名、画像ファイルリスト、プロンプトを受け取り、出力テキストを返す関数。
 
@@ -29,7 +29,7 @@ def process_images_with_prompt(model_path, image_paths, prompt, max_tokens):
         processor, config, prompt, num_images=len(image_paths)
     )
     # 出力を生成
-    output = generate(model=model, processor=processor, prompt=formatted_prompt, image=image_paths, max_tokens=max_tokens, verbose=False)
+    output = generate(model=model, processor=processor, prompt=formatted_prompt, image=image_paths, max_tokens=max_tokens, temp=temp, verbose=False)
     
     return output
 

@@ -1,6 +1,6 @@
 import ollama
 
-def process_images_with_prompt(model_path, image_paths, prompt, max_tokens):
+def process_images_with_prompt(model_path, image_paths, prompt, max_tokens, temp):
     """
     モデル名、画像ファイルリスト、プロンプトを受け取り、出力テキストを返す関数。
 
@@ -12,7 +12,7 @@ def process_images_with_prompt(model_path, image_paths, prompt, max_tokens):
     Returns:
         str: モデルからの出力テキスト。
     """
-    response = ollama.chat(model=model_path, options={"temperature":0, "num_predict":max_tokens}, messages=[
+    response = ollama.chat(model=model_path, options={"temperature":temp, "num_predict":max_tokens}, messages=[
         {
             'role': 'user',
             'content': prompt,

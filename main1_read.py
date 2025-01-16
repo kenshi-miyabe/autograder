@@ -28,25 +28,40 @@ for file_name in sorted(os.listdir(dir_students)):
 
 # 画像からテキストを抽出
 # モデル名、プロンプトを設定
+"""
 arg_list = [
-    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000}, #0.95
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B", 'type': "mlx", 'max_tokens': 10000}, #0.88
-    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-7B", 'type': "mlx", 'max_tokens': 5000}, #0.80
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}, #0.82
-    {'model_path': "llama3.2-vision:90b", 'model_name': "llama-90B", 'type': "ollama", 'max_tokens': 5000}, #0.70
-    {'model_path': "llama3.2-vision", 'model_name': "llama-11B", 'type': "ollama", 'max_tokens': 5000}, #0.81
+    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.95
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0}, #0.88
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-1", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.3}, #0.88
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-2", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.6}, #0.88
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0}, #0.82
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.3}, #0.82
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.6}, #0.82
+#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-7B", 'type': "mlx", 'max_tokens': 5000}, #0.80
+#    {'model_path': "llama3.2-vision:90b", 'model_name': "llama-90B", 'type': "ollama", 'max_tokens': 5000}, #0.70
+#    {'model_path': "llama3.2-vision", 'model_name': "llama-11B", 'type': "ollama", 'max_tokens': 5000}, #0.81
 #    {'model_path': "mlx-community/Llama-3.2-11B-Vision-Instruct-8bit", 'model_name': "llama-11B-mlx", 'type': "mlx", 'max_tokens': 5000}, #0.76
 #    {'model_path': "llava:34b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.058
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000} #0.45
 ]
-#arg_list = [
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}, #0.87
-#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000}, #0.73
+#"""
+#"""
+arg_list = [
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.1}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.2}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-3", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.3}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-4", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-5", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.5}, #0.94
+    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-6", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.6}, #0.94
+#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-3", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.9}, #0.92
+#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000, 'temp': 0}, #0.76
+#    {'model_path': "llama3.2-vision", 'model_name': "llama-0", 'type': "ollama", 'max_tokens': 5000, 'temp': 0}, #0.80
+#    {'model_path': "llama3.2-vision", 'model_name': "llama-1", 'type': "ollama", 'max_tokens': 5000, 'temp': 0.5}, #0.21
 #    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.12
-#    {'model_path': "llama3.2-vision", 'model_name': "llama", 'type': "ollama", 'max_tokens': 5000}, #0.83
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
-#]
-
+]
+#"""
 
 prompt = """
 The main section of the document consists of a grid with 50 questions, numbered from 1 to 50.
@@ -87,12 +102,13 @@ for file_name in sorted(os.listdir(dir_students)):
             model_name = model_info['model_name']
             model_type = model_info['type']
             max_tokens = model_info['max_tokens']
+            temp = model_info['temp']
             if model_type == "mlx":
                 print(f"{model_path}で{image_path}を処理中")
-                output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt, max_tokens)
+                output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt, max_tokens, temp)
             elif model_type == "ollama":
                 print(f"{model_path}で{image_path}を処理中")
-                output = image_to_text_ollama.process_images_with_prompt(model_path, [image_path], prompt, max_tokens)
+                output = image_to_text_ollama.process_images_with_prompt(model_path, [image_path], prompt, max_tokens, temp)
             else :
                 print("Error: unknown model type.")
                 break
@@ -111,10 +127,14 @@ df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-df_majority = txt_to_df.majority_vote_from_list(df_list)
-print(df_majority.head())
+#df_majority = txt_to_df.majority_vote_from_list(df_list)
+#print(df_majority.head())
+#for df in df_list:
+#    print(txt_to_df.calculate_match_rate(df_majority, df))
+df_consensus = txt_to_df.consensus_df(df_list, threshold=4/7)
+print(df_consensus.head())
 for df in df_list:
-    print(txt_to_df.calculate_match_rate(df_majority, df))
+    print(txt_to_df.calculate_match_rate(df_consensus, df))
 
 #differences = []
 #for row in range(df0.shape[0]):

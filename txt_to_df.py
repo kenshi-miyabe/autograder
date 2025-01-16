@@ -112,9 +112,8 @@ def get_consensus_answer(answers, threshold=0.5):
         return most_common_answer
     else:
         return "NA"
-import pandas as pd
 
-def consensus_df(dfs):
+def consensus_df(dfs, threshold=0.5):
     """
     dfs: list of pandas.DataFrame
         同じ形を持つDataFrameのリスト
@@ -134,7 +133,7 @@ def consensus_df(dfs):
             elements = [df.iloc[i, j] for df in dfs]
 
             # get_consensus_answerで合意形成
-            new_df.iloc[i, j] = get_consensus_answer(elements)
+            new_df.iloc[i, j] = get_consensus_answer(elements, threshold)
 
     return new_df
 
