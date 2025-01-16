@@ -33,27 +33,6 @@ def process_images_with_prompt(model_path, image_paths, prompt, max_tokens=5000,
     
     return output
 
-def extract_from_marker(text, marker):
-    """
-    文字列から指定されたマーカー以降を取り出す関数
-
-    Parameters:
-        text (str): 入力文字列
-        marker (str): 抽出を開始するマーカー文字列
-
-    Returns:
-        str: 最後のマーカー以降の部分文字列。マーカーが見つからない場合は全体。
-    """
-    marker_index = text.rfind(marker)
-    if marker_index != -1:
-        # 最後のマーカーが見つかった場合、その位置以降を返す
-        return text[marker_index:]
-    else:
-        # マーカーが見つからない場合は全体を返す
-        return text
-
-
-
 if __name__ == "__main__":
     # モデル名、画像パス、プロンプトを設定
     #model_path = "mlx-community/Qwen2-VL-7B-Instruct-4bit"

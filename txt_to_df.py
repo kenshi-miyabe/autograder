@@ -13,13 +13,19 @@ def construct_df(dir_name, end_str, columns, problem_length):
             txt_path = os.path.join(dir_name, file_name)
             print(f"{txt_path}を処理中")
             content = mylib.read_text_file(txt_path)
-            # 数字、()、_, ? 以外を削除
-            cleaned_text = re.sub(r"[^\d\(\)_\?\n]", "", content)
+
+            # マーカー以降を抽出
+            marker_index = content.rfind("Final Answer")
+            if marker_index != -1:
+                final_answer = content[marker_index:]
+
+            # 数字、()、X 以外を削除
+            cleaned_text = re.sub(r"[^\d\(\)X\n]", "", final_answer)
             answer_list = ["NA"] * problem_length  # 初期値を "NA" に設定
             
             for i in range(1, problem_length + 1):
-                # 正規表現を修正し、解答が _ または ? の場合にも対応
-                match = re.search(rf"\({i}\)\s*([\d\_?])?", cleaned_text)
+                # (i)の次の数字もしくはXを取得
+                match = re.search(rf"\({i}\)\s*([\dX])?", cleaned_text)
                 if match and match.group(1):  # 解答が存在する場合のみ値を設定
                     answer_list[i - 1] = match.group(1)
             
