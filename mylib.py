@@ -37,6 +37,25 @@ if __name__ == "__main__":
     df = load_csv(file_path)
 """
 
+def write_df_to_csv(df, filename):
+    """
+    すべて文字列型の値が含まれているDataFrameをCSV形式で書き出す
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        書き出したいDataFrame
+    filename : str
+        書き出し先のCSVファイル名
+    """
+    # 列をすべて文字列型に変換
+    df_str = df.astype(str)
+
+    # CSVファイルへ書き出し(index=Falseは行番号を省略)
+    df_str.to_csv(filename, index=False, encoding="utf-8")
+
+
+
 def write_to_csv(file_name, data, col_names):
     """
     リストをCSVファイルに追記する関数。

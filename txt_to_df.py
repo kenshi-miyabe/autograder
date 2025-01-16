@@ -3,6 +3,7 @@ import os
 import re
 import pandas as pd
 import numpy as np
+from collections import Counter
 import mylib
 
 def construct_df(dir_name, end_str, columns, problem_length):
@@ -92,6 +93,50 @@ def calculate_match_rate(df1, df2, fill_value=None):
     match_rate = match_count / total_elements
 
     return match_rate
+
+def get_consensus_answer(answers, threshold=0.5):
+    """
+    複数のモデルの答え(answers)が与えられたとき，
+    出現回数が threshold を超える答えがあればそれを返し，
+    なければ 'NA' を返す関数．
+    """
+    if not answers:
+        return "NA"
+
+    counter = Counter(answers)
+    # 最も多く選ばれている答えとその回数を取得
+    most_common_answer, most_common_count = counter.most_common(1)[0]
+
+    # しきい値を超えているか判定
+    if most_common_count / len(answers) >= threshold:
+        return most_common_answer
+    else:
+        return "NA"
+import pandas as pd
+
+def consensus_df(dfs):
+    """
+    dfs: list of pandas.DataFrame
+        同じ形を持つDataFrameのリスト
+
+    returns
+        合意形成後のDataFrame
+    """
+    # ここでは，dfsに含まれるDataFrameすべてが
+    # 同じindexおよびcolumnsを持っていると仮定します
+    base_df = dfs[0]
+    new_df = pd.DataFrame(index=base_df.index, columns=base_df.columns)
+
+    # 行と列を総当たりしながら処理
+    for i in range(len(base_df.index)):
+        for j in range(len(base_df.columns)):
+            # i行j列に対応するすべてのdfsの値をリストにまとめる
+            elements = [df.iloc[i, j] for df in dfs]
+
+            # get_consensus_answerで合意形成
+            new_df.iloc[i, j] = get_consensus_answer(elements)
+
+    return new_df
 
 if __name__ == "__main__":
     problem_length = 50

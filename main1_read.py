@@ -28,18 +28,25 @@ for file_name in sorted(os.listdir(dir_students)):
 
 # 画像からテキストを抽出
 # モデル名、プロンプトを設定
-#arg_list = [
-#    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000},
-#    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000},
-#    {'model_path': "mlx-community/pixtral-12b-bf16", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}
-#]
 arg_list = [
-    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000},
-    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000},
-    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000},
-    {'model_path': "llama3.2-vision", 'model_name': "llama", 'type': "ollama", 'max_tokens': 5000},
-#    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
+    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000}, #0.95
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B", 'type': "mlx", 'max_tokens': 10000}, #0.88
+    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-7B", 'type': "mlx", 'max_tokens': 5000}, #0.80
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}, #0.82
+    {'model_path': "llama3.2-vision:90b", 'model_name': "llama-90B", 'type': "ollama", 'max_tokens': 5000}, #0.70
+    {'model_path': "llama3.2-vision", 'model_name': "llama-11B", 'type': "ollama", 'max_tokens': 5000}, #0.81
+#    {'model_path': "mlx-community/Llama-3.2-11B-Vision-Instruct-8bit", 'model_name': "llama-11B-mlx", 'type': "mlx", 'max_tokens': 5000}, #0.76
+#    {'model_path': "llava:34b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.058
+#    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000} #0.45
 ]
+#arg_list = [
+#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral", 'type': "mlx", 'max_tokens': 5000}, #0.87
+#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen", 'type': "mlx", 'max_tokens': 5000}, #0.73
+#    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.12
+#    {'model_path': "llama3.2-vision", 'model_name': "llama", 'type': "ollama", 'max_tokens': 5000}, #0.83
+#    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
+#]
+
 
 prompt = """
 The main section of the document consists of a grid with 50 questions, numbered from 1 to 50.
@@ -53,7 +60,7 @@ Format each answer on a separate line in the following style without using TeX f
 (Question number) Answer's digit
 =====
 Make sure the question number is enclosed in parentheses.
-If the answer is a cross mark, replace `Answer's digit' with `_'.
+If the answer is a cross mark or blank, replace `Answer's digit' with `_'.
 If the answer is illegible, replace it with `?'.
 
 Example final output:
