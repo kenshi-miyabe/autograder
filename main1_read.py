@@ -44,8 +44,6 @@ arg_list = [
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
 #    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
-#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
-#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
 #    {'model_path': "llama3.2-vision", 'model_name': "llama-0", 'type': "ollama", 'max_tokens': 5000, 'temp': 0}, #0.80
 #    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.12
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
@@ -89,11 +87,12 @@ mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.
 #"""
 problem_length = 50
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
+threshold = 5/7
 df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-df_consensus = txt_to_df.consensus_df(df_list, threshold=5/7).replace("NA", pd.NA)
+df_consensus = txt_to_df.consensus_df(df_list, threshold=threshold).replace("NA", pd.NA)
 print(df_consensus.head())
 #for df in df_list:
 #    print(txt_to_df.calculate_match_rate(df_consensus, df))
