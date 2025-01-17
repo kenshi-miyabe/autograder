@@ -93,7 +93,7 @@ df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-df_consensus = txt_to_df.consensus_df(df_list, threshold=6/7).replace("NA", pd.NA)
+df_consensus = txt_to_df.consensus_df(df_list, threshold=5/7).replace("NA", pd.NA)
 print(df_consensus.head())
 #for df in df_list:
 #    print(txt_to_df.calculate_match_rate(df_consensus, df))

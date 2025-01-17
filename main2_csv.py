@@ -37,3 +37,4 @@ merged_df = pd.merge(df_report, df_summary, on="学生番号", how="left")
 
 # データフレームをCSVファイルとして保存
 merged_df.to_csv(output_file, index=False, encoding="utf-8-sig")
+print(f"{output_file}を保存しました。")
