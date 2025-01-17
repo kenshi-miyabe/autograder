@@ -28,15 +28,15 @@ for file_name in sorted(os.listdir(dir_students)):
 
 # 画像からテキストを抽出
 # モデル名、プロンプトを設定
-"""
+#"""
 arg_list = [
-    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.95
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.88
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-1", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.88
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-2", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.88
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.82
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.82
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.82
+    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.99
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.95
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-1", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.99
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-2", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.99
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.96
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.93
+    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.93
 #    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-7B", 'type': "mlx", 'max_tokens': 5000}, #0.80
 #    {'model_path': "llama3.2-vision:90b", 'model_name': "llama-90B", 'type': "ollama", 'max_tokens': 5000}, #0.70
 #    {'model_path': "llama3.2-vision", 'model_name': "llama-11B", 'type': "ollama", 'max_tokens': 5000}, #0.81
@@ -45,21 +45,13 @@ arg_list = [
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000} #0.45
 ]
 #"""
-#"""
+"""
 arg_list = [
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-3", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-4", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-5", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-6", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
-#    {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-3", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.9}, #0.92
 #    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
-#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
-#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
 #    {'model_path': "llama3.2-vision", 'model_name': "llama-0", 'type': "ollama", 'max_tokens': 5000, 'temp': 0}, #0.80
-#    {'model_path': "llama3.2-vision", 'model_name': "llama-1", 'type': "ollama", 'max_tokens': 5000, 'temp': 0.5}, #0.21
 #    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.12
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
 ]
@@ -111,7 +103,7 @@ Make sure each question number is enclosed in parentheses, and each answer is a 
 Do not use "O".
 """
 
-#"""
+"""
 for file_name in sorted(os.listdir(dir_students)):
 
     if file_name.endswith("_page1.jpg"):
@@ -140,7 +132,7 @@ for file_name in sorted(os.listdir(dir_students)):
             mylib.write_text_file(txt_path, output)
 #"""
 
-#テキストファイルからデータフレームの作成
+#テキストファイルを集計し，多数決をとって，もう一度テキストファイルとして出力する
 #"""
 problem_length = 50
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
@@ -148,30 +140,10 @@ df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-#df_majority = txt_to_df.majority_vote_from_list(df_list)
-#print(df_majority.head())
-#for df in df_list:
-#    print(txt_to_df.calculate_match_rate(df_majority, df))
 df_consensus = txt_to_df.consensus_df(df_list, threshold=4/7)
 print(df_consensus.head())
-for df in df_list:
-    print(txt_to_df.calculate_match_rate(df_consensus, df))
+#for df in df_list:
+#    print(txt_to_df.calculate_match_rate(df_consensus, df))
 #"""
-
-#differences = []
-#for row in range(df0.shape[0]):
-#    for col in range(df0.shape[1]):
-#        if df0.iat[row, col] != df1.iat[row, col] or df0.iat[row, col] != df2.iat[row, col]:
-#        if df0.iat[row, col] != df1.iat[row, col]:
-#            differences.append((row, col))
-
-# 相違のある行と列を抽出
-#if differences:
-#    for row, col in differences:
-#        log = f"Diff at ID '{df0.at[row,"学生番号"]}', column '{col}': df0={df0.iat[row, col]}, df1={df1.iat[row, col]}, df2={df2.iat[row, col]}"
-#        print(log)
-#        mylib.log_error(log, file_name=diff_log)
-#else:
-#    print("No objection.")
 
 
