@@ -14,7 +14,7 @@ import pandas as pd
 # 学生の解答用紙ファイルのディレクトリ設定
 dir_students = './student_answers'
 summary_csv = "./correct_answer/summary.csv"
-NA_txt = "./correct_answer/NA.csv"
+NA_csv = "./correct_answer/NA.csv"
 
 # pdfファイルをjpgに変換
 mylib.repeat_func_in_dir(dir_students, ".pdf", pdf_to_jpg.convert_pdf_to_jpg)
@@ -44,6 +44,8 @@ arg_list = [
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
 #    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
+#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
+#    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.76
 #    {'model_path': "llama3.2-vision", 'model_name': "llama-0", 'type': "ollama", 'max_tokens': 5000, 'temp': 0}, #0.80
 #    {'model_path': "llava:13b", 'model_name': "llava", 'type': "ollama", 'max_tokens': 5000}, #0.12
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000}
@@ -80,23 +82,6 @@ Example final output:
 Ensure the final output is in plain text format, without TeX formatting or file references.
 """
 
-prompt0 = """
-Please extract all 50 answers from the main section as they are.
-
-The background is white, and the text is handwritten in black ink.
-The main section of the document consists of a grid with 50 questions, numbered from (1) to (50).
-Each question has a single-digit handwritten answer or a cross mark "X".
-
-Example final output:
-=====
-(1) ? (2) ? (3) ? (4) ? (5) ?
-(6) ? (7) ? (8) ? (9) ? (10) ?
-...
-=====
-Make sure each question number is enclosed in parentheses, and each answer is a digit or "X".
-Do not use "O".
-"""
-
 # 画像内容をテキストに出力
 mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.process_list(arg_list, prompt, path))
 
@@ -108,7 +93,7 @@ df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-df_consensus = txt_to_df.consensus_df(df_list, threshold=4/7).replace("NA", pd.NA)
+df_consensus = txt_to_df.consensus_df(df_list, threshold=6/7).replace("NA", pd.NA)
 print(df_consensus.head())
 #for df in df_list:
 #    print(txt_to_df.calculate_match_rate(df_consensus, df))
@@ -116,4 +101,4 @@ print(df_consensus.head())
 
 # dfからcsvファイルと，エラー処理用のtxtファイルを作成
 df_consensus.to_csv(summary_csv, index=False, encoding='utf-8')
-df_to_csv.list_na_locations(df_consensus, NA_txt)
+df_to_csv.list_na_locations(df_consensus, NA_csv)

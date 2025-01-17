@@ -91,7 +91,7 @@ def write_to_csv(file_name, data, col_names):
     注意: この関数は既存の内容を削除して上書きします。
     """
     try:
-        with open(file_name, mode='w', newline='', encoding='utf-8') as file:
+        with open(file_name, mode='w', newline='', encoding='utf-8-sig') as file:
             writer = csv.writer(file)
             if col_names is not None:
                 writer.writerow(col_names)
