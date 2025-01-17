@@ -98,7 +98,7 @@ Do not use "O".
 """
 
 # 画像内容をテキストに出力
-#mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.process_list(arg_list, prompt, path))
+mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.process_list(arg_list, prompt, path))
 
 # txtファイルを集計し，多数決をとってdfを作成
 #"""

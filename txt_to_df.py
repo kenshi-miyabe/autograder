@@ -21,6 +21,8 @@ def construct_df(dir_name, end_str, columns, problem_length):
             else:
                 final_answer = content
 
+            # oとOを0に変換
+            #final_answer = re.sub("o", "0", final_answer, flags=re.IGNORECASE)
             # 数字、()、X 以外を削除
             cleaned_text = re.sub(r"[^\d\(\)X\n]", "", final_answer)
             answer_list = ["NA"] * problem_length  # 初期値を "NA" に設定
