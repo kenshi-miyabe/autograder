@@ -18,6 +18,8 @@ def construct_df(dir_name, end_str, columns, problem_length):
             marker_index = content.rfind("Final Answer")
             if marker_index != -1:
                 final_answer = content[marker_index:]
+            else:
+                final_answer = content
 
             # 数字、()、X 以外を削除
             cleaned_text = re.sub(r"[^\d\(\)X\n]", "", final_answer)
@@ -104,10 +106,10 @@ def get_consensus_answer(answers, threshold=0.5):
     """
     複数のモデルの答え(answers)が与えられたとき，
     出現回数が threshold を超える答えがあればそれを返し，
-    なければ 'NA' を返す関数．
+    なければ None を返す関数．
     """
     if not answers:
-        return "NA"
+        return None
 
     counter = Counter(answers)
     # 最も多く選ばれている答えとその回数を取得
@@ -117,7 +119,7 @@ def get_consensus_answer(answers, threshold=0.5):
     if most_common_count / len(answers) >= threshold:
         return most_common_answer
     else:
-        return "NA"
+        return None
 
 def consensus_df(dfs, threshold=0.5):
     """

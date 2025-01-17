@@ -1,34 +1,27 @@
 
-# pdfから文字を読み取りtxtファイルに保存
-# 複数モデルで結果を比較して差異を抽出する
-# その後，手動でdiff_log, txt, pdfを見ながらtxtを修正する
+# pdfからjpgを作る
+# jpgから文字を読み取りtxtファイルに保存
+# txtファイルを集計し，多数決をとってdfを作成
+# dfからcsvファイルと，エラー処理用のcsvファイルを作成
 
-# 学生の解答用紙ファイルのディレクトリ設定
-dir_students = './student_answers'
-diff_log = "./correct_answer/diff_log.txt"
-
-import os
-import pandas as pd
-import re
 import mylib
 import pdf_to_jpg
 import image_to_text
-import image_to_text_ollama
 import txt_to_df
+import df_to_csv
+import pandas as pd
 
+# 学生の解答用紙ファイルのディレクトリ設定
+dir_students = './student_answers'
+summary_csv = "./correct_answer/summary.csv"
+NA_txt = "./correct_answer/NA.csv"
 
 # pdfファイルをjpgに変換
-#"""
-for file_name in sorted(os.listdir(dir_students)):
-    if file_name.endswith(".pdf"):
-        pdf_path = os.path.join(dir_students, file_name)
-        print(f"{pdf_path}を処理中")
-        pdf_to_jpg.convert_pdf_to_jpg(pdf_path)
-#"""
+mylib.repeat_func_in_dir(dir_students, ".pdf", pdf_to_jpg.convert_pdf_to_jpg)
 
 # 画像からテキストを抽出
-# モデル名、プロンプトを設定
-#"""
+# モデルを設定
+"""
 arg_list = [
     {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.99
     {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.95
@@ -45,7 +38,7 @@ arg_list = [
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000} #0.45
 ]
 #"""
-"""
+#"""
 arg_list = [
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
@@ -57,6 +50,7 @@ arg_list = [
 ]
 #"""
 
+# promptを設定
 prompt = """
 Please extract all 50 answers from the main section as they are.
 
@@ -103,36 +97,10 @@ Make sure each question number is enclosed in parentheses, and each answer is a 
 Do not use "O".
 """
 
-"""
-for file_name in sorted(os.listdir(dir_students)):
+# 画像内容をテキストに出力
+#mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.process_list(arg_list, prompt, path))
 
-    if file_name.endswith("_page1.jpg"):
-        image_path = os.path.join(dir_students, file_name)
-        print(f"{image_path}を処理中")
-
-        for model_info in arg_list:
-            model_path = model_info['model_path']
-            model_name = model_info['model_name']
-            model_type = model_info['type']
-            max_tokens = model_info['max_tokens']
-            temp = model_info['temp']
-            if model_type == "mlx":
-                print(f"{model_path}で{image_path}を処理中")
-                output = image_to_text.process_images_with_prompt(model_path, [image_path], prompt, max_tokens, temp)
-            elif model_type == "ollama":
-                print(f"{model_path}で{image_path}を処理中")
-                output = image_to_text_ollama.process_images_with_prompt(model_path, [image_path], prompt, max_tokens, temp)
-            else :
-                print("Error: unknown model type.")
-                break
-
-            # テキストファイルに出力
-            base, ext = os.path.splitext(image_path)
-            txt_path = base + "-" + model_name + ".txt"
-            mylib.write_text_file(txt_path, output)
-#"""
-
-#テキストファイルを集計し，多数決をとって，もう一度テキストファイルとして出力する
+# txtファイルを集計し，多数決をとってdfを作成
 #"""
 problem_length = 50
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
@@ -140,10 +108,12 @@ df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
-df_consensus = txt_to_df.consensus_df(df_list, threshold=4/7)
+df_consensus = txt_to_df.consensus_df(df_list, threshold=4/7).replace("NA", pd.NA)
 print(df_consensus.head())
 #for df in df_list:
 #    print(txt_to_df.calculate_match_rate(df_consensus, df))
 #"""
 
-
+# dfからcsvファイルと，エラー処理用のtxtファイルを作成
+df_consensus.to_csv(summary_csv, index=False, encoding='utf-8')
+df_to_csv.list_na_locations(df_consensus, NA_txt)
