@@ -99,5 +99,5 @@ print(df_consensus.head())
 #"""
 
 # dfからcsvファイルと，エラー処理用のtxtファイルを作成
-df_consensus.to_csv(summary_csv, index=False, encoding='utf-8')
+df_consensus.to_csv(summary_csv, index=False, encoding='utf-8-sig')
 df_to_csv.list_na_locations(df_consensus, NA_csv)

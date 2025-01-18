@@ -76,7 +76,7 @@ def write_df_to_csv(df, filename):
     df_str = df.astype(str)
 
     # CSVファイルへ書き出し(index=Falseは行番号を省略)
-    df_str.to_csv(filename, index=False, encoding="utf-8")
+    df_str.to_csv(filename, index=False, encoding="utf-8-sig")
 
 # 列名のリスト，リストのリストをCSVファイルに書き込む関数
 def write_to_csv(file_name, data, col_names):
