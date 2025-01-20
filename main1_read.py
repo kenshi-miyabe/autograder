@@ -21,15 +21,15 @@ mylib.repeat_func_in_dir(dir_students, ".pdf", pdf_to_jpg.convert_pdf_to_jpg)
 
 # 画像からテキストを抽出
 # モデルを設定
-"""
+#"""
 arg_list = [
-    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.99
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.95
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-1", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.99
-    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-2", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.99
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.96
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.93
-    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.93
+    {'model_path': "mlx-community/QVQ-72B-Preview-4bit", 'model_name': "QVQ", 'type': "mlx", 'max_tokens': 15000, 'temp': 0}, #0.993
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-0", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.993
+    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-1", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.993
+#    {'model_path': "mlx-community/Qwen2-VL-72B-Instruct-4bit", 'model_name': "Qwen-72B-2", 'type': "mlx", 'max_tokens': 10000, 'temp': 0.4}, #0.993
+#    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.96
+#    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.96
+#    {'model_path': "mlx-community/pixtral-12b-8bit", 'model_name': "Pixtral-2", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.96
 #    {'model_path': "mlx-community/Qwen2-VL-7B-Instruct-8bit", 'model_name': "Qwen-7B", 'type': "mlx", 'max_tokens': 5000}, #0.80
 #    {'model_path': "llama3.2-vision:90b", 'model_name': "llama-90B", 'type': "ollama", 'max_tokens': 5000}, #0.70
 #    {'model_path': "llama3.2-vision", 'model_name': "llama-11B", 'type': "ollama", 'max_tokens': 5000}, #0.81
@@ -38,7 +38,7 @@ arg_list = [
 #    {'model_path': "minicpm-v", 'model_name': "minicpm", 'type': "ollama", 'max_tokens': 5000} #0.45
 ]
 #"""
-#"""
+"""
 arg_list = [
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-0", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
     {'model_path': "mlx-community/pixtral-12b-4bit", 'model_name': "Pixtral-1", 'type': "mlx", 'max_tokens': 5000, 'temp': 0.4}, #0.94
@@ -87,15 +87,15 @@ mylib.repeat_func_in_dir(dir_students, "_page1.jpg", lambda path: image_to_text.
 #"""
 problem_length = 50
 columns = ["学生番号"] + [f"Q{i:02}" for i in range(1, problem_length+1)]
-threshold = 5/7
+threshold = 2/3
 df_list = []
 for model_info in arg_list:
     model_name = model_info['model_name']
     df_list.append(txt_to_df.construct_df(dir_students, "_page1-" + model_name + ".txt", columns, problem_length))
 df_consensus = txt_to_df.consensus_df(df_list, threshold=threshold).replace("NA", pd.NA)
 print(df_consensus.head())
-#for df in df_list:
-#    print(txt_to_df.calculate_match_rate(df_consensus, df))
+for df in df_list:
+    print(txt_to_df.calculate_match_rate(df_consensus, df))
 #"""
 
 # dfからcsvファイルと，エラー処理用のtxtファイルを作成
