@@ -41,6 +41,9 @@ def convert_pdf_to_jpg(file_name, contrast_ratio=3.0):
     for output_file in output_files:
         print(output_file)
 
+
+# 例: extract_images_from_pdf("input.pdf", "output_images")
+
 if __name__ == "__main__":
     #input_file = input("PDFファイル名を入力してください：")
     input_file = "./student_answers/158R248028-MINUTE-2412031628.pdf"

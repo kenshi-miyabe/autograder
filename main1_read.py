@@ -5,7 +5,7 @@
 # dfからcsvファイルと，エラー処理用のcsvファイルを作成
 
 import mylib
-import pdf_to_jpg
+import pdf_to_image
 import image_to_text
 import txt_to_df
 import df_to_csv
@@ -16,8 +16,8 @@ dir_students = './student_answers'
 summary_csv = "./correct_answer/summary.csv"
 NA_csv = "./correct_answer/NA.csv"
 
-# pdfファイルをjpgに変換
-mylib.repeat_func_in_dir(dir_students, ".pdf", pdf_to_jpg.convert_pdf_to_jpg)
+# pdfファイルをimageに変換
+mylib.repeat_func_in_dir(dir_students, ".pdf", pdf_to_image.convert_pdf_to_jpg)
 
 # 画像からテキストを抽出
 # モデルを設定
