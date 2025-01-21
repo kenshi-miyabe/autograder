@@ -1,6 +1,7 @@
+import os
+import io
 import fitz  # PyMuPDF
 from PIL import Image, ImageEnhance # Pillow
-import os
 import mylib
 
 def convert_pdf_to_jpg(file_name, contrast_ratio=3.0):
@@ -41,8 +42,50 @@ def convert_pdf_to_jpg(file_name, contrast_ratio=3.0):
     for output_file in output_files:
         print(output_file)
 
+import os
+from PIL import Image, ImageEnhance
+import fitz  # PyMuPDFを使用
 
-# 例: extract_images_from_pdf("input.pdf", "output_images")
+def convert_pdf_to_png(file_name, img_size =(1448, 2048), dpi=72, contrast_ratio=3.0):
+    # ファイル拡張子を確認
+    if not file_name.endswith('.pdf'):
+        print("エラー: PDFファイルを指定してください．")
+        return
+
+    # PDFを開く
+    pdf_document = fitz.open(file_name)
+    output_files = []
+
+    # 各ページを画像に変換
+    for page_number in range(len(pdf_document)):
+        page = pdf_document.load_page(page_number)
+        
+        # 画像サイズを指定してピクセルデータを取得
+        zoom = dpi / 72
+        mat = fitz.Matrix(zoom, zoom)
+        pix = page.get_pixmap(matrix=mat)
+        
+        # PIL用のバイトデータに変換
+        img_data = pix.tobytes("png")
+        with Image.open(io.BytesIO(img_data)) as img:
+            img = img.resize(img_size)
+
+            # コントラストを調整
+            enhancer = ImageEnhance.Contrast(img)
+            enhanced_img = enhancer.enhance(contrast_ratio)
+            
+            # PNGとして保存
+            output_file = f"{os.path.splitext(file_name)[0]}_page{page_number + 1}.png"
+            enhanced_img.save(output_file, format='PNG')
+            output_files.append(output_file)
+
+    pdf_document.close()
+
+    print("以下のPNGファイルが作成されました：")
+    for output_file in output_files:
+        print(output_file)
+
+
 
 if __name__ == "__main__":
     #input_file = input("PDFファイル名を入力してください：")
